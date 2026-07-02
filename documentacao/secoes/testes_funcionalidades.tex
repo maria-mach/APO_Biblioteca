@@ -1,0 +1,125 @@
+Esta seção documenta os testes realizados nas funcionalidades completas do sistema,
+verificando o fluxo de ponta a ponta (interface $\\rightarrow$ AJAX $\\rightarrow$ Servlet $\\rightarrow$ DAO $\\rightarrow$ MySQL).
+
+% ---- FUNCIONALIDADE 1: CADASTRO E ATIVAÇÃO ----
+\subsection{Funcionalidade: Cadastro e Ativação de Conta}
+
+\textbf{Objetivo:} Verificar o fluxo completo de registro de um novo usuário, incluindo o
+recebimento e validação do e-mail de ativação via Mailtrap.
+
+\begin{table}[h!]
+	\centering
+	\caption{Casos de teste --- Cadastro e Ativação}
+	\label{tab:teste_cadastro}
+	\begin{tabular}{|c|p{6cm}|p{6cm}|c|}
+		\hline
+		\textbf{CT\#} & \textbf{Ação} & \textbf{Resultado Esperado} & \textbf{Status} \\ \hline
+		CT-01 & Preencher todos os campos do formulário de cadastro com dados válidos e submeter. & Mensagem de sucesso exibida via AJAX; e-mail de ativação enviado ao Mailtrap. & $\checkmark$ \\ \hline
+		CT-02 & Submeter o formulário com o campo e-mail em branco. & Validação HTML5/jQuery impede envio; mensagem de erro ``Campo obrigatório''. & $\checkmark$ \\ \hline
+		CT-03 & Tentar cadastrar com um e-mail já existente no banco. & Retorno JSON com erro 409; mensagem ``E-mail já cadastrado'' exibida na tela. & $\checkmark$ \\ \hline
+		CT-04 & Acessar o link de ativação recebido no Mailtrap. & Conta ativada; redirecionamento para login com mensagem de confirmação. & $\checkmark$ \\ \hline
+	\end{tabular}
+\end{table}
+
+% ---- FUNCIONALIDADE 2: AUTENTICAÇÃO ----
+\subsection{Funcionalidade: Autenticação e Controle de Acesso}
+
+\begin{table}[h!]
+	\centering
+	\caption{Casos de teste --- Login e RBAC}
+	\label{tab:teste_login}
+	\begin{tabular}{|c|p{6cm}|p{6cm}|c|}
+		\hline
+		\textbf{CT\#} & \textbf{Ação} & \textbf{Resultado Esperado} & \textbf{Status} \\ \hline
+		CT-05 & Efetuar login com credenciais de Administrador. & Usuário autenticado com sucesso e redirecionado para \texttt{admin.jsp}. & $\checkmark$ \\ \hline
+		CT-06 & Efetuar login com credenciais de Leitor (ativo). & Usuário autenticado com sucesso e redirecionado para \texttt{dashboard.jsp}. & $\checkmark$ \\ \hline
+		CT-07 & Tentar logar com conta existente mas não ativada por e-mail. & Mensagem informando a necessidade de validação de conta antes do primeiro acesso. & $\checkmark$ \\ \hline
+		CT-08 & Inserir senha incorreta para e-mail cadastrado. & Erro capturado; mensagem ``E-mail ou senha inválidos'' sem expor detalhes estruturais. & $\checkmark$ \\ \hline
+		CT-09 & Leitor tenta digitar diretamente a URL \texttt{/admin.jsp}. & Bloqueado por \texttt{AutenticacaoFilter} e redirecionado ao index com aviso de restrição. & $\checkmark$ \\ \hline
+	\end{tabular}
+\end{table}
+
+% ---- FUNCIONALIDADE 3: CATALOGAÇÃO ----
+\subsection{Funcionalidade: Catalogação e Filtros do Acervo (MARC21)}
+
+\begin{table}[h!]
+	\centering
+	\caption{Casos de teste --- Acervo e MARC21}
+	\label{tab:teste_acervo}
+	\begin{tabular}{|c|p{6cm}|p{6cm}|c|}
+		\hline
+		\textbf{CT\#} & \textbf{Ação} & \textbf{Resultado Esperado} & \textbf{Status} \\ \hline
+		CT-10 & Admin insere um livro físico mapeando as tags MARC21 (020, 100, 245). & Dados distribuídos corretamente entre as tabelas correspondentes no MySQL. & $\checkmark$ \\ \hline
+		CT-11 & Admin tenta cadastrar item sem preencher a Tag 245 (Título obrigatório). & Alerta de validação impede o envio; transação não enviada ao banco de dados. & $\checkmark$ \\ \hline
+		CT-12 & Usuário realiza busca rápida por termo presente na tag de assunto (Tag 650). & Listagem atualizada dinamicamente via AJAX exibindo apenas os registros correspondentes. & $\checkmark$ \\ \hline
+		CT-13 & Leitor clica em visualizar detalhes de uma obra física do acervo. & Modal abre exibindo a ficha catalográfica formatada com os rótulos legíveis das Tags MARC21. & $\checkmark$ \\ \hline
+	\end{tabular}
+\end{table}
+
+% ---- FUNCIONALIDADE 4: EMPRÉSTIMOS ----
+\subsection{Funcionalidade: Controle de Empréstimos e Devoluções}
+
+\begin{table}[h!]
+	\centering
+	\caption{Casos de teste --- Empréstimos}
+	\label{tab:teste_emprestimos}
+	\begin{tabular}{|c|p{6cm}|p{6cm}|c|}
+		\hline
+		\textbf{CT\#} & \textbf{Ação} & \textbf{Resultado Esperado} & \textbf{Status} \\ \hline
+		CT-14 & Leitor solicita empréstimo de livro com estoque disponível. & Registro criado com status \texttt{SOLICITADO}; estoque permanece inalterado até aprovação administrativa. & $\checkmark$ \\ \hline
+		CT-15 & Leitor tenta solicitar livro que está com estoque zerado (indisponível). & Botão desabilitado na interface; requisição manual direta via endpoint devolve erro. & $\checkmark$ \\ \hline
+		CT-16 & Admin aprova uma solicitação pendente. & Status alterado para \texttt{ATIVO}; data de retirada atualizada; estoque decrementado em 1 unidade. & $\checkmark$ \\ \hline
+		CT-17 & Admin recusa uma solicitação pendente. & Status alterado para \texttt{RECUSADO}; estoque permanece inalterado. & $\checkmark$ \\ \hline
+		CT-18 & Admin registra devolução dentro do prazo regulamentar. & Status do empréstimo alterado para \texttt{DEVOLVIDO}; estoque incrementado em +1 unidade. & $\checkmark$ \\ \hline
+		CT-19 & Admin registra devolução de empréstimo com 3 dias de atraso. & Sistema calcula automaticamente o valor da multa com base na taxa diária operacional vigente. & $\checkmark$ \\ \hline
+	\end{tabular}
+\end{table}
+
+% ---- FUNCIONALIDADE 5: RENOVAÇÃO ----
+\subsection{Funcionalidade: Renovação Online e Regras de Negócio}
+
+\begin{table}[h!]
+	\centering
+	\caption{Casos de teste --- Renovações}
+	\label{tab:teste_renovacao}
+	\begin{tabular}{|c|p{6cm}|p{6cm}|c|}
+		\hline
+		\textbf{CT\#} & \textbf{Ação} & \textbf{Resultado Esperado} & \textbf{Status} \\ \hline
+		CT-20 & Leitor solicita renovação de empréstimo ativo dentro do prazo regular. & Data de devolução estendida por mais 7 dias; contador incrementado. & $\checkmark$ \\ \hline
+		CT-21 & Leitor tenta renovar uma solicitação ainda não aprovada. & Renovação recusada; apenas empréstimos com status \texttt{ATIVO} podem ser renovados. & $\checkmark$ \\ \hline
+		CT-22 & Leitor tenta renovar um empréstimo já em atraso (vencido). & Renovação recusada; sistema exige a devolução imediata do item físico e quitação do débito. & $\checkmark$ \\ \hline
+		CT-23 & Leitor tenta realizar a 4ª renovação consecutiva (limite configurado = 3). & Ação bloqueada pelo servidor; mensagem de erro indica limite de renovações atingido. & $\checkmark$ \\ \hline
+	\end{tabular}
+\end{table}
+
+% ---- FUNCIONALIDADE 6: CONFIGURAÇÕES ----
+\subsection{Funcionalidade: Configurações do Sistema}
+
+\begin{table}[h!]
+	\centering
+	\caption{Casos de teste --- Configurações}
+	\label{tab:teste_config}
+	\begin{tabular}{|c|p{6cm}|p{6cm}|c|}
+		\hline
+		\textbf{CT\#} & \textbf{Ação} & \textbf{Resultado Esperado} & \textbf{Status} \\ \hline
+		CT-24 & Admin altera o valor da multa diária para R\$ 2,50. & Novo valor persistido no banco; próximo cálculo de multa usa o valor atualizado. & $\checkmark$ \\ \hline
+		CT-25 & Admin altera o limite de renovações para 1 (mínimo). & Leitores que já renovaram uma vez não podem renovar novamente. & $\checkmark$ \\ \hline
+		CT-26 & Leitor tenta acessar \texttt{GET /api/admin/configuracoes}. & HTTP 403 retornado pelo \texttt{AutenticacaoFilter}. & $\checkmark$ \\ \hline
+	\end{tabular}
+\end{table}
+
+% ---- FUNCIONALIDADE 7: USUÁRIOS ----
+\subsection{Funcionalidade: Perfil e Controle de Usuários}
+
+\begin{table}[h!]
+	\centering
+	\caption{Casos de teste --- Perfil e Usuários}
+	\label{tab:teste_usuarios}
+	\begin{tabular}{|c|p{6cm}|p{6cm}|c|}
+		\hline
+		\textbf{CT\#} & \textbf{Ação} & \textbf{Resultado Esperado} & \textbf{Status} \\ \hline
+		CT-27 & Leitor atualiza nome e senha no painel. & Dados persistidos; sessão atualizada; senha gravada com hash SHA-256. & $\checkmark$ \\ \hline
+		CT-28 & Admin altera papel de usuário de 'Leitor' para 'Admin'. & Permissões atualizadas instantaneamente no banco de dados. & $\checkmark$ \\ \hline
+		CT-29 & Admin inativa um usuário inadimplente crônico. & Usuário não consegue realizar login e tem acessos cortados. & $\checkmark$ \\ \hline
+	\end{tabular}
+\end{table}

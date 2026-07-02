@@ -1,0 +1,23 @@
+O presente trabalho tem como objetivo o desenvolvimento de um \textbf{Sistema de Gestão de Biblioteca} utilizando a plataforma \textbf{Jakarta EE (Java EE 8)}, com servidor de aplicação \textbf{Apache Tomcat 9.0}, banco de dados \textbf{MySQL 8.0} e interface web construída com \textbf{Bootstrap 5.0} e requisições assíncronas via \textbf{jQuery/AJAX}.
+
+O sistema foi concebido para atender as necessidades operacionais de uma biblioteca de médio porte, contemplando as seguintes funções principais:
+
+\begin{itemize}
+    \item \textbf{Catalogação do Acervo Bibliográfico:} Registro de obras físicas com suporte ao padrão internacional \textbf{MARC21} (\textit{Machine-Readable Cataloging}), permitindo a indexação de metadados bibliográficos como título (Tag 245), autor (Tag 100), ISBN (Tag 020) e assuntos (Tag 650), entre outros.
+    
+    \item \textbf{Controle de Solicitações, Empréstimos e Devoluções:} Gerenciamento do ciclo de vida completo do empréstimo de livros físicos, incluindo solicitação pelo leitor, aprovação ou recusa pelo administrador, registro de retirada, controle de prazos (prazo padrão de 7 dias corridos), registro de devoluções e cálculo automático de multas por atraso.
+    
+    \item \textbf{Renovação Online:} Permite que leitores autenticados renovem o prazo de seus empréstimos de forma assíncrona, respeitando o limite máximo de renovações configurável pelo administrador.
+    
+    \item \textbf{Gestão de Usuários e Controle de Acesso (RBAC):} O sistema implementa o padrão de segurança por Controle de Acesso Baseado em Papéis (\textit{Role-Based Access Control}), diferenciando os perfis de \textbf{Administrador} e \textbf{Cliente (Leitor)}.
+    
+    \item \textbf{Validação de Cadastro por E-mail:} Usuários recém-cadastrados precisam confirmar seu endereço de e-mail através de um link de ativação gerado com token único (\texttt{UUID}), enviado via protocolo \textbf{SMTP} com suporte ao serviço de testes \textbf{Mailtrap}.
+    
+    \item \textbf{Listas de Leitura Personalizadas:} Leitores podem criar coleções pessoais de livros de interesse, como pastas de favoritos.
+    
+    \item \textbf{Configurações Operacionais Dinâmicas:} Administradores podem ajustar parâmetros como o valor da multa diária e o limite de renovações diretamente pelo painel administrativo, sem necessidade de intervenção no código.
+\end{itemize}
+
+O projeto foi desenvolvido com base no \textbf{Documento de Diretrizes Arquiteturais} elaborado previamente, seguindo os princípios \textbf{SOLID} --- em especial o Princípio da Substituição de Liskov (LSP) na hierarquia de herança do acervo (\texttt{ItemAcervo} $\rightarrow$ \texttt{LivroFisico}, \texttt{EBook}) e o Princípio Aberto/Fechado (OCP) na extensibilidade das classes de persistência (\texttt{BaseDAO}).
+
+A arquitetura segue o padrão \textbf{MVC (Model--View--Controller)}, separando claramente as responsabilidades entre as camadas de modelo (Entidades e DAOs), controle (Servlets HTTP) e visão (páginas JSP com Bootstrap).

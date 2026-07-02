@@ -1,0 +1,94 @@
+================================================================================
+                    DICIONÁRIO DE DADOS DO BANCO DE DOS
+================================================================================
+
+--------------------------------------------------------------------------------
+TABELA: usuarios
+Descrição: Representa os operadores e leitores cadastrados no sistema.
+--------------------------------------------------------------------------------
+Coluna          | Tipo         | Nulo | Chave | Padrão   | Restrições                       | Descrição
+------------------------------------------------------------------------------------------------------------------------------------------------------
+id              | INT          | Não  | PK    | [Auto]   | Único                            | Identificador numérico único do usuário.
+nome            | VARCHAR(100) | Não  | -     | -        | -                                | Nome completo do usuário.
+email           | VARCHAR(100) | Não  | UK    | -        | Único / Validação Regex          | E-mail corporativo/pessoal utilizado para login.
+senha           | VARCHAR(255) | Não  | -     | -        | Hash BCrypt/SHA                  | Senha criptografada por algoritmo de hash.
+token_ativacao  | VARCHAR(100) | Sim  | -     | NULL     | -                                | Código temporário de ativação da conta por SMTP.
+ativo           | BOOLEAN      | Sim  | -     | FALSE    | -                                | Indica se o e-mail foi validado e a conta liberada.
+tipo_usuario    | ENUM         | Não  | -     | -        | 'ADMIN', 'CLIENTE'               | Papel do usuário no controle de segurança RBAC.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TABELA: livros
+Descrição: Representa o catálogo unificado de livros físicos, suas chaves de busca padrão e estoque.
+--------------------------------------------------------------------------------
+Coluna          | Tipo         | Nulo | Chave | Padrão   | Restrições                       | Descrição
+------------------------------------------------------------------------------------------------------------------------------------------------------
+id              | INT          | Não  | PK    | [Auto]   | Único                            | Identificador numérico único da obra física.
+isbn            | VARCHAR(20)  | Não  | UK    | -        | Único (MARC 020)                 | Código internacional identificador do livro.
+titulo          | VARCHAR(255) | Não  | -     | -        | (MARC 245)                       | Título abreviado ou principal da obra.
+autor           | VARCHAR(150) | Não  | -     | -        | (MARC 100)                       | Nome do autor principal da obra.
+qtd_total       | INT          | Não  | -     | 1        | >= 0                             | Quantidade total de exemplares físicos comprados.
+qtd_disponivel  | INT          | Não  | -     | 1        | >= 0 e <= qtd_total              | Exemplares livres em estante para retirada.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TABELA: campos_marc
+Descrição: Armazena a indexação estendida de metadados bibliográficos do padrão MARC21 em formato chave-valor.
+--------------------------------------------------------------------------------
+Coluna          | Tipo         | Nulo | Chave | Padrão   | Restrições                       | Descrição
+------------------------------------------------------------------------------------------------------------------------------------------------------
+id              | INT          | Não  | PK    | [Auto]   | Único                            | Identificador numérico único do metadado.
+livro_id        | INT          | Não  | FK    | -        | Referencia livros(id)            | Obra à qual a tag MARC está associada.
+tag             | VARCHAR(3)   | Não  | -     | -        | Formato 3 dígitos (REGEXP)       | Número identificador do padrão MARC (ex: 245, 650).
+valor           | TEXT         | Não  | -     | -        | -                                | Conteúdo bibliográfico associado à tag.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TABELA: emprestimos
+Descrição: Controle de transações físicas de retirada de livros por leitores e taxas de atraso.
+--------------------------------------------------------------------------------
+Coluna          | Tipo         | Nulo | Chave | Padrão   | Restrições                       | Descrição
+------------------------------------------------------------------------------------------------------------------------------------------------------
+id              | INT          | Não  | PK    | [Auto]   | Único                            | Código do comprovante de empréstimo.
+usuario_id      | INT          | Não  | FK    | -        | Referencia usuarios(id)          | Leitor responsável pela retirada do livro.
+livro_id        | INT          | Não  | FK    | -        | Referencia livros(id)            | Obra física retirada para empréstimo.
+status          | ENUM         | Não  | -     | ATIVO    | SOLICITADO/ATIVO/DEVOLVIDO/RECUSADO | Estado da solicitação ou empréstimo.
+data_emprestimo | DATE         | Não  | -     | -        | -                                | Data em que o exemplar foi entregue ao leitor.
+data_devolucao_prevista|DATE   | Não  | -     | -        | >= data_emprestimo               | Prazo final para devolução (Default: +7 dias).
+data_devolucao_efetiva |DATE   | Sim  | -     | NULL     | >= data_emprestimo               | Data real do registro físico do retorno da obra.
+multa_acumulada | DECIMAL(10,2)| Sim  | -     | 0.00     | >= 0.00                          | Multa total gerada por dias atrasados.
+renovacoes_decorrentes |INT    | Sim  | -     | 0        | >= 0                             | Contagem de renovações consecutivas efetuadas.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TABELA: listas_leitura
+Descrição: Coleções criadas por usuários leitores para indexação e acesso rápido pessoal.
+--------------------------------------------------------------------------------
+Coluna          | Tipo         | Nulo | Chave | Padrão   | Restrições                       | Descrição
+------------------------------------------------------------------------------------------------------------------------------------------------------
+id              | INT          | Não  | PK    | [Auto]   | Único                            | Identificador exclusivo da lista de leitura.
+usuario_id      | INT          | Não  | FK    | -        | Referencia usuarios(id)          | Leitor dono da lista.
+nome            | VARCHAR(100) | Não  | -     | -        | -                                | Nome da pasta/coleção (ex: "Favoritos").
+data_criacao    | TIMESTAMP    | Sim  | -     | CURRENT_TIMESTAMP| -                         | Data e hora em que a pasta foi criada.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TABELA: listas_leitura_livros
+Descrição: Tabela associativa de relacionamento muitos-para-muitos relacionando itens de acervo e coleções.
+--------------------------------------------------------------------------------
+Coluna          | Tipo         | Nulo | Chave | Padrão   | Restrições                       | Descrição
+------------------------------------------------------------------------------------------------------------------------------------------------------
+lista_leitura_id| INT          | Não  | PK, FK| -        | Referencia listas_leitura(id)    | ID da coleção contendo os livros.
+livro_id        | INT          | Não  | PK, FK| -        | Referencia livros(id)            | ID do livro contido na coleção.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TABELA: configuracoes_globais
+Descrição: Armazena parâmetros dinâmicos que governam as regras de negócio em todo o sistema.
+--------------------------------------------------------------------------------
+Coluna          | Tipo         | Nulo | Chave | Padrão   | Restrições                       | Descrição
+------------------------------------------------------------------------------------------------------------------------------------------------------
+id              | INT          | Não  | PK    | [Auto]   | Único                            | ID da instância de configuração (uso singleton).
+multa_diaria    | DECIMAL(10,2)| Não  | -     | 1.00     | >= 0.00                          | Coeficiente monetário cobrado por dia de atraso.
+limite_renovacoes| INT         | Não  | -     | 3        | >= 0                             | Quantidade máxima consecutiva de renovações online.
+------------------------------------------------------------------------------------------------------------------------------------------------------

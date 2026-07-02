@@ -1,0 +1,57 @@
+\begin{thebibliography}{10}
+
+\bibitem{bootstrap2024docs}
+{Bootstrap Core Team}.
+\newblock Bootstrap 5 --- the world's most popular front-end open source
+  toolkit, 2024.
+
+\bibitem{deitel2017java}
+P.~J. Deitel and H.~M. Deitel.
+\newblock {\em Java: Como Programar}.
+\newblock Pearson, São Paulo, 10 edition, 2017.
+
+\bibitem{gamma1994design}
+E.~Gamma, R.~Helm, R.~Johnson, and J.~Vlissides.
+\newblock {\em Design Patterns: Elements of Reusable Object-Oriented Software}.
+\newblock Addison-Wesley, Reading, MA, 1994.
+
+\bibitem{geary2010head}
+D.~Geary and C.~S. Horstmann.
+\newblock {\em Core JavaServer Faces}.
+\newblock Prentice Hall, 3 edition, 2010.
+
+\bibitem{google2024gson}
+{Google}.
+\newblock Gson user guide, 2024.
+
+\bibitem{horstmann2019core}
+C.~S. Horstmann.
+\newblock {\em Core Java, Volume II -- Advanced Features}.
+\newblock Prentice Hall, 11 edition, 2019.
+
+\bibitem{jquery2024api}
+{jQuery Foundation}.
+\newblock jquery api documentation, 2024.
+
+\bibitem{loc2024marc21}
+{Library of Congress}.
+\newblock Marc 21 format for bibliographic data, 2024.
+
+\bibitem{martin2008clean}
+R.~C. Martin.
+\newblock {\em Clean Code: A Handbook of Agile Software Craftsmanship}.
+\newblock Prentice Hall, Upper Saddle River, NJ, 2008.
+
+\bibitem{mozilla2024mdn}
+{Mozilla Foundation}.
+\newblock Mdn web docs -- fetch api, 2024.
+
+\bibitem{mysql2024docs}
+{Oracle Corporation}.
+\newblock Mysql 8.0 reference manual, 2024.
+
+\bibitem{tomcat2024docs}
+{The Apache Software Foundation}.
+\newblock Apache tomcat 9.0 documentation, 2024.
+
+\end{thebibliography}

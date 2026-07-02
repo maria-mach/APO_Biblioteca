@@ -1,0 +1,28 @@
+\babel@toc {brazilian}{}\relax 
+\contentsline {section}{\numberline {1}Objetivo do Sistema}{3}{section.1}%
+\contentsline {section}{\numberline {2}Equipe e Funções dos Integrantes}{4}{section.2}%
+\contentsline {section}{\numberline {3}Requisitos do Sistema}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Requisitos Tecnológicos}{4}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Requisitos Funcionais}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Requisitos Não-Funcionais}{6}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Modelagem do Sistema}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Diagrama de Classes}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Arquitetura de Fluxo de Dados}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Diagrama de Caso de Uso}{7}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Diagrama de Sequência: Solicitação de Empréstimo}{7}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Relatório de Testes de Endpoints}{8}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Endpoint: POST /api/login}{8}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Endpoint: POST /api/usuarios}{9}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Endpoint: GET /api/ativar}{9}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Endpoint: POST /api/recuperar}{10}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Endpoint: POST /api/emprestimos}{10}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Endpoint: GET/POST /api/admin/usuarios}{11}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}Endpoint: GET/POST /api/admin/configuracoes}{12}{subsection.5.7}%
+\contentsline {section}{\numberline {6}Relatório de Testes de Funcionalidades}{12}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Funcionalidade: Cadastro e Ativação de Conta}{12}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Funcionalidade: Autenticação e Controle de Acesso}{13}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Funcionalidade: Catalogação e Filtros do Acervo (MARC21)}{13}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Funcionalidade: Controle de Empréstimos e Devoluções}{13}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Funcionalidade: Renovação Online e Regras de Negócio}{13}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}Funcionalidade: Configurações do Sistema}{13}{subsection.6.6}%
+\contentsline {subsection}{\numberline {6.7}Funcionalidade: Perfil e Controle de Usuários}{13}{subsection.6.7}%

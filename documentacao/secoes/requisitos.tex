@@ -1,0 +1,51 @@
+\subsection{Requisitos Tecnológicos}
+
+O projeto foi desenvolvido atendendo integralmente os seguintes requisitos tecnológicos obrigatórios:
+
+\begin{table}[h!]
+	\centering
+	\caption{Requisitos tecnológicos e status de atendimento}
+	\label{tab:req_tec}
+	\begin{tabular}{|p{4.5cm}|p{9.5cm}|c|}
+		\hline
+		\textbf{Tecnologia} & \textbf{Aplicação no Projeto} & \textbf{Status} \\ \hline
+		Jakarta EE / Tomcat 9+ & Servidor de aplicação principal; API de Servlets 4.0 & $\checkmark$ \\ \hline
+		MySQL Server 8.0+ & Banco de dados relacional; scripts em \texttt{ddl.sql} e \texttt{dml.sql} & $\checkmark$ \\ \hline
+		jQuery & Requisições AJAX, manipulação DOM, máscaras de entrada & $\checkmark$ \\ \hline
+		Bootstrap 5.0 & Layout responsivo, componentes visuais, modais & $\checkmark$ \\ \hline
+		AJAX & Chamadas assíncronas para todos os endpoints & $\checkmark$ \\ \hline
+		Endpoints JSON & Retorno \texttt{application/json} em todos os Servlets & $\checkmark$ \\ \hline
+		Testes Postman & Relatório de testes na Seção~\ref{sec:testes_endpoints} & $\checkmark$ \\ \hline
+		Servlets como endpoints & Todos os endpoints são Servlets mapeados por anotações \texttt{@WebServlet}; o \texttt{web.xml} define a página inicial & $\checkmark$ \\ \hline
+		JSP para views & Todas as páginas são construídas em JSP com JSTL & $\checkmark$ \\ \hline
+	\end{tabular}
+\end{table}
+
+\subsection{Requisitos Funcionais}
+
+\begin{itemize}
+	\item \textbf{RF01} --- Cadastro de Usuário: Permite o auto-cadastro de leitores informando nome, e-mail e senha.
+	\item \textbf{RF02} --- Ativação de Conta: Envio de e-mail assíncrono com token exclusivo para validação do cadastro.
+	\item \textbf{RF03} --- Autenticação: Sistema de login seguro diferenciando perfis por papéis através de filtros.
+	\item \textbf{RF04} --- Recuperação de Senha: Gera uma senha provisória aleatória e envia ao e-mail do usuário ativo.
+	\item \textbf{RF05} --- Consulta ao Acervo: Filtros e buscas de livros e e-books por título, autor ou assunto.
+	\item \textbf{RF06} --- Detalhes do Item: Visualização completa dos metadados bibliográficos estruturados no padrão MARC21.
+	\item \textbf{RF07} --- Solicitação de Empréstimo: Leitores com conta ativa e sem débitos podem solicitar a retirada de livro físico disponível, ficando a solicitação pendente de aprovação administrativa.
+	\item \textbf{RF08} --- Renovação Assíncrona: Extensão do prazo de entrega via painel do leitor, respeitando limites operacionais.
+	\item \textbf{RF09} --- Listas de Interesse: Criação e gerenciamento de coleções de favoritos de livros físicos pelo leitor.
+	\item \textbf{RF10} --- Painel de Controle (Dashboard): Indicadores gráficos e contadores quantitativos específicos para administradores e leitores.
+	\item \textbf{RF11} --- Gerenciamento de Acervo: Cadastro, edição e exclusão de livros físicos e e-books, incluindo campos MARC21.
+	\item \textbf{RF12} --- Gerenciamento de Usuários: Listagem de usuários, alteração de perfil (admin/leitor) e inativação.
+	\item \textbf{RF13} --- Controle de Empréstimos: Aprovação ou recusa de solicitações pelo administrador, registro de devolução e visualização de pendências.
+	\item \textbf{RF14} --- Relatório de Inadimplência: Listagem de empréstimos em atraso com cálculo de multa acumulada.
+	\item \textbf{RF15} --- Configurações do Sistema: Ajuste de parâmetros operacionais (prazo padrão, valor de multa, limite de renovações).
+\end{itemize}
+
+\subsection{Requisitos Não-Funcionais}
+
+\begin{itemize}
+	\item \textbf{RNF01 --- Segurança:} Senhas armazenadas com hash SHA-256. Sessões gerenciadas pelo Tomcat com filtro de autenticação em todas as rotas protegidas.
+	\item \textbf{RNF02 --- Usabilidade:} Interface responsiva (Bootstrap 5) com feedback imediato ao usuário via mensagens AJAX.
+	\item \textbf{RNF03 --- Manutenibilidade:} Arquitetura em camadas (MVC) com padrão DAO e herança (\texttt{BaseDAO}), seguindo os princípios SOLID.
+	\item \textbf{RNF04 --- Portabilidade:} Empacotado como \texttt{.war} compatível com qualquer container Servlet 4.0+ (Tomcat 9/10, WildFly, GlassFish).
+\end{itemize}

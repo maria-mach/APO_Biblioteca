@@ -1,0 +1,219 @@
+\label{sec:testes_endpoints}
+
+Os endpoints da aplicação foram testados utilizando a ferramenta \textbf{Postman} (versão 10+). Para cada endpoint, foram realizados testes com dados válidos e dados inválidos para verificar o comportamento esperado da API.
+
+\textbf{Configuração do ambiente de teste:}
+\begin{itemize}
+	\item URL Base: \texttt{http://localhost:8080/biblioteca}
+	\item Servidor: Apache Tomcat 9.0 (local)
+	\item Banco de Dados: MySQL 8.0 (local)
+\end{itemize}
+
+% ---- ENDPOINT 1: POST /api/login ----
+\subsection{Endpoint: POST /api/login}
+
+\textbf{Descrição:} Autentica o usuário e retorna os dados da sessão em JSON.
+
+\textbf{Teste 1.1 --- Login de Administrador com sucesso:}
+
+\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/login (Administrador)}]
+	POST http://localhost:8080/biblioteca/api/login
+	Content-Type: application/x-www-form-urlencoded
+	
+	email=admin@biblioteca.com&senha=admin123
+\end{lstlisting}
+
+\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 200 OK)}]
+	{
+		"sucesso": true,
+		"mensagem": "Login realizado com sucesso.",
+		"usuario": {
+			"id": 1,
+			"nome": "Administrador",
+			"perfil": "ADMIN",
+			"redirect": "/biblioteca/admin.jsp"
+		}
+	}
+\end{lstlisting}
+
+\textbf{Teste 1.2 --- Login com credenciais inválidas:}
+
+\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 401 Unauthorized)}]
+	{
+		"sucesso": false,
+		"mensagem": "E-mail ou senha invalidos."
+	}
+\end{lstlisting}
+
+% ---- ENDPOINT 2: POST /api/usuarios ----
+\subsection{Endpoint: POST /api/usuarios}
+
+\textbf{Descrição:} Realiza o cadastro de um novo leitor no sistema.
+
+\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/usuarios}]
+	POST http://localhost:8080/biblioteca/api/usuarios
+	Content-Type: application/x-www-form-urlencoded
+	
+	nome=Fulano+da+Silva&email=fulano@gmail.com&senha=senha123
+\end{lstlisting}
+
+\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 201 Created)}]
+	{
+		"sucesso": true,
+		"mensagem": "Cadastro realizado com sucesso! Verifique seu e-mail para ativar a conta."
+	}
+\end{lstlisting}
+
+\textbf{Teste 2.2 --- Tentativa de cadastro com e-mail duplicado:}
+
+\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 409 Conflict)}]
+	{
+		"sucesso": false,
+		"mensagem": "Este e-mail ja esta cadastrado."
+	}
+\end{lstlisting}
+
+% ---- ENDPOINT 3: GET /api/ativar ----
+\subsection{Endpoint: GET /api/ativar}
+
+\textbf{Descrição:} Ativa a conta do usuário através do token UUID enviado por e-mail.
+
+\begin{lstlisting}[style=sqlStyle, caption={Requisição: GET /api/ativar}]
+	GET http://localhost:8080/biblioteca/api/ativar?token=9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
+\end{lstlisting}
+
+\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 200 OK)}]
+	{
+		"sucesso": true,
+		"mensagem": "Conta ativada com sucesso! Voce ja pode fazer login."
+	}
+\end{lstlisting}
+
+% ---- ENDPOINT 4: POST /api/recuperar ----
+\subsection{Endpoint: POST /api/recuperar}
+
+\textbf{Descrição:} Envia uma senha temporária por e-mail se a conta estiver ativa.
+
+\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/recuperar}]
+	POST http://localhost:8080/biblioteca/api/recuperar
+	Content-Type: application/x-www-form-urlencoded
+	
+	email=fulano@gmail.com
+\end{lstlisting}
+
+\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 200 OK)}]
+	{
+		"sucesso": true,
+		"mensagem": "Se o e-mail existir e a conta estiver ativa, enviaremos uma senha temporaria."
+	}
+	\\end{lstlisting}
+	
+	% ---- ENDPOINT 5: POST /api/emprestimos ----
+	\subsection{Endpoint: POST /api/emprestimos}
+	
+	\textbf{Descrição:} Registra uma solicitação de empréstimo para um livro físico disponível. O estoque somente é alterado depois da aprovação administrativa.
+	
+	\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/emprestimos}]
+		POST http://localhost:8080/biblioteca/api/emprestimos
+		Content-Type: application/x-www-form-urlencoded
+		Cookie: JSESSIONID={token_da_sessao_leitor}
+		
+		acao=cadastrar\&livroId=5
+	\end{lstlisting}
+	
+	\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 200 OK)}]
+		{
+			"sucesso": true,
+			"mensagem": "Solicitacao enviada com sucesso! Aguarde a aprovacao do administrador para retirar o livro."
+		}
+	\end{lstlisting}
+
+	\textbf{Teste 5.1 --- Admin aprova solicitação de empréstimo:}
+
+	\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/emprestimos acao=aprovar}]
+		POST http://localhost:8080/biblioteca/api/emprestimos
+		Content-Type: application/x-www-form-urlencoded
+		Cookie: JSESSIONID={token_da_sessao_admin}
+		
+		acao=aprovar\&emprestimoId=10
+	\end{lstlisting}
+
+	\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 200 OK)}]
+		{
+			"sucesso": true,
+			"mensagem": "Solicitacao aprovada. O emprestimo foi iniciado..."
+		}
+	\end{lstlisting}
+
+	\textbf{Teste 5.2 --- Admin recusa solicitação de empréstimo:}
+
+	\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/emprestimos acao=recusar}]
+		POST http://localhost:8080/biblioteca/api/emprestimos
+		Content-Type: application/x-www-form-urlencoded
+		Cookie: JSESSIONID={token_da_sessao_admin}
+		
+		acao=recusar\&emprestimoId=10
+	\end{lstlisting}
+
+	\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 200 OK)}]
+		{
+			"sucesso": true,
+			"mensagem": "Solicitacao recusada sem alterar o estoque."
+		}
+	\end{lstlisting}
+	
+	\textbf{Teste 5.3 --- Usuário não autenticado tentando acessar:}
+	
+	\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 401 Unauthorized)}]
+		{
+			"sucesso": false,
+			"mensagem": "Acesso negado. Faca login primeiro."
+		}
+	\end{lstlisting}
+	
+	\textbf{Teste 5.4 --- Leitor tentando acessar endpoint de Admin:}
+	
+	\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 403 Forbidden)}]
+		{
+			"sucesso": false,
+			"mensagem": "Acesso negado. Permissao insuficiente."
+		}
+	\end{lstlisting}
+	
+	\subsection{Endpoint: GET/POST /api/admin/usuarios}
+	
+	\textbf{Descrição:} Lista usuários cadastrados e permite ao administrador alterar perfil e status.
+	
+	\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/admin/usuarios}]
+		POST http://localhost:8080/biblioteca/api/admin/usuarios
+		Content-Type: application/x-www-form-urlencoded
+		Cookie: JSESSIONID={token_da_sessao_admin}
+		
+		id=2\&tipoUsuario=CLIENTE\&ativo=true
+	\end{lstlisting}
+	
+	\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 200 OK)}]
+		{
+			"sucesso": true,
+			"mensagem": "Usuario atualizado com sucesso."
+		}
+	\end{lstlisting}
+	
+	\subsection{Endpoint: GET/POST /api/admin/configuracoes}
+	
+	\textbf{Descrição:} Consulta e atualiza parâmetros operacionais do sistema.
+	
+	\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/admin/configuracoes}]
+		POST http://localhost:8080/biblioteca/api/admin/configuracoes
+		Content-Type: application/x-www-form-urlencoded
+		Cookie: JSESSIONID={token_da_sessao_admin}
+		
+		multaDiaria=2.50\&limiteRenovacoes=3\&prazoEmprestimo=7
+	\end{lstlisting}
+	
+	\begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 200 OK)}]
+		{
+			"sucesso": true,
+			"mensagem": "Parametros operacionais atualizados com sucesso."
+		}
+	\end{lstlisting}

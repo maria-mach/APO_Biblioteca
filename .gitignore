@@ -1,0 +1,13 @@
+.agents/
+.codex/
+.metadata/
+
+target/
+bin/
+*.class
+*.war
+
+*.log
+*.tmp
+Thumbs.db
+desktop.ini

@@ -1,0 +1,168 @@
+\documentclass[12pt, a4paper]{article}
+
+% ---------------------------------------------------------------------------
+% PACOTES
+% ---------------------------------------------------------------------------
+\usepackage[brazilian]{babel} 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{cite}
+\usepackage{amsmath} % CORRIGIDO: Necessário para o \xrightarrow em modelagem.tex
+\usepackage{amssymb}
+% ---------------------------------------------------------------------------
+% CONFIGURAÇÕES DE LAYOUT
+% ---------------------------------------------------------------------------
+\geometry{
+	top=3cm, bottom=2cm,
+	left=3cm, right=2cm
+}
+
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0.2cm}
+\onehalfspacing
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!70!black,
+	urlcolor=blue!70!black,
+	citecolor=black
+}
+
+% ---------------------------------------------------------------------------
+% CONFIGURAÇÃO DOS LISTINGS (Código-Fonte)
+% ---------------------------------------------------------------------------
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblue}{rgb}{0,0.4,0.8}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+
+\lstdefinestyle{javaStyle}{
+	backgroundcolor=\color{backcolour},
+	commentstyle=\color{codegray},
+	keywordstyle=\color{codeblue}\bfseries,
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=4,
+	frame=single,
+	language=Java,
+	extendedchars=true, % CORRIGIDO: Melhora suporte a acentuação externa
+	literate={á}{{\'a}}1 {ã}{{\~a}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {é}{{\'e}}1 {ç}{{\c{c}}}1 {ú}{{\'u}}1 {ê}{{\^e}}1 {â}{{\^a}}1 {A}{A}1 {&}{{\&}}1 % CORRIGIDO: Escapa o & e acentos dentro do código
+}
+
+\lstdefinestyle{sqlStyle}{
+	backgroundcolor=\color{backcolour},
+	commentstyle=\color{codegray}\itshape,
+	keywordstyle=\color{codeblue}\bfseries,
+	numberstyle=\tiny\color{codegray},
+	basicstyle=\ttfamily\footnotesize,
+	breaklines=true,
+	frame=single,
+	language=SQL,
+	extendedchars=true,
+	literate={á}{{\'a}}1 {ã}{{\~a}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {é}{{\'e}}1 {ç}{{\c{c}}}1 {ú}{{\'u}}1 {ê}{{\^e}}1 {â}{{\^a}}1 {&}{{\&}}1
+}
+
+\lstset{style=javaStyle}
+
+% ---------------------------------------------------------------------------
+% CONFIGURAÇÃO DE CABEÇALHO E RODAPÉ
+% ---------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\footnotesize APO2 - Biblioteca MARC21}
+\lhead{\footnotesize Documentação Técnica}
+\rfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ---------------------------------------------------------------------------
+% INÍCIO DO DOCUMENTO
+% ---------------------------------------------------------------------------
+\begin{document}
+	
+	\pagenumbering{Alph} 
+	
+	% ---------------------------------------------------------------------------
+	% CAPA
+	% ---------------------------------------------------------------------------
+	\begin{titlepage}
+		\centering
+		\vspace*{2cm}
+		{\LARGE \textbf{CURSO DE ANÁLISE E DESENVOLVIMENTO DE SISTEMAS}\par}
+		\vspace{0.5cm}
+		{\large Disciplina: Algoritmos e Programação Orientada a Objetos II (APO2)\par}
+		\vspace{3cm}
+		{\Huge \textbf{Sistema de Gestão de Biblioteca MARC21}\par}
+		\vspace{0.5cm}
+		{\large Plataforma Jakarta EE --- Apache Tomcat 9.0\par}
+		\vspace{2cm}
+		{\large
+			\textbf{Integrantes:}\par
+			\vspace{0.5cm}
+			Hálan Sousa, Naiany Sobral, Maria Machado\par
+		}
+		\vfill
+		
+	\end{titlepage}
+	
+	\clearpage
+	\pagenumbering{arabic}
+	
+	% ---------------------------------------------------------------------------
+	% SUMÁRIO
+	% ---------------------------------------------------------------------------
+	\tableofcontents
+	\newpage
+	
+	% ---------------------------------------------------------------------------
+	% INCLUSÃO DAS SEÇÕES
+	% ---------------------------------------------------------------------------
+	\section{Objetivo do Sistema}
+	\input{../secoes/introducao}
+	
+	\section{Equipe e Funções dos Integrantes}
+	\input{../secoes/equipe}
+	
+	\section{Requisitos do Sistema}
+	\input{../secoes/requisitos}
+	
+	\section{Modelagem do Sistema}
+	\input{../secoes/modelagem}
+	
+	\section{Relatório de Testes de Endpoints}
+	\input{../secoes/testes_endpoints}
+	
+	\section{Relatório de Testes de Funcionalidades}
+	\input{../secoes/testes_funcionalidades}
+	
+	% ---------------------------------------------------------------------------
+	% REFERÊNCIAS BIBLIOGRÁFICAS
+	% ---------------------------------------------------------------------------
+\newpage
+\bibliographystyle{abbrv}
+\nocite{*} % Força a exibição de todas as referências do .bib
+\bibliography{../referencias}
+	
+\end{document}
