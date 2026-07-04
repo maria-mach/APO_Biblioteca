@@ -8,13 +8,14 @@
 \contentsline {section}{\numberline {4}Modelagem do Sistema}{6}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Diagrama de Classes}{6}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Arquitetura de Fluxo de Dados}{7}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Diagrama de Caso de Uso}{7}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Diagrama de Sequência: Solicitação de Empréstimo}{7}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.3}Diagrama Entidade-Relacionamento}{7}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Diagrama de Caso de Uso}{7}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Diagrama de Sequência: Solicitação e Aprovação de Empréstimo}{7}{subsection.4.5}%
 \contentsline {section}{\numberline {5}Relatório de Testes de Endpoints}{8}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Endpoint: POST /api/login}{8}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Endpoint: POST /api/usuarios}{9}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.2}Endpoint: POST /api/cadastro}{9}{subsection.5.2}%
 \contentsline {subsection}{\numberline {5.3}Endpoint: GET /api/ativar}{9}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Endpoint: POST /api/recuperar}{10}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.4}Endpoint: POST /api/recuperar-senha}{10}{subsection.5.4}%
 \contentsline {subsection}{\numberline {5.5}Endpoint: POST /api/emprestimos}{10}{subsection.5.5}%
 \contentsline {subsection}{\numberline {5.6}Endpoint: GET/POST /api/admin/usuarios}{11}{subsection.5.6}%
 \contentsline {subsection}{\numberline {5.7}Endpoint: GET/POST /api/admin/configuracoes}{12}{subsection.5.7}%

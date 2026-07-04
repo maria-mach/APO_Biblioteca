@@ -31,6 +31,39 @@ O fluxo de execução das requisições assíncronas (AJAX) segue de forma padro
 	\texttt{MySQL} $\xrightarrow{\text{ResultSet}}$ \texttt{XServletDAO} $\rightarrow$ \texttt{Gson.toJson()} $\xrightarrow{\text{JSON}}$ \texttt{jQuery/AJAX} $\rightarrow$ \texttt{DOM}
 \end{center}
 
+\subsection{Diagrama Entidade-Relacionamento}
+
+O modelo relacional do banco de dados organiza os cadastros principais e as relações operacionais de empréstimo, metadados MARC21 e listas de leitura.
+
+\begin{verbatim}
+	usuarios (id PK)
+	  1 ---- N emprestimos (usuario_id FK)
+	  1 ---- N listas_leitura (usuario_id FK)
+
+	livros (id PK)
+	  1 ---- N emprestimos (livro_id FK)
+	  1 ---- N campos_marc (livro_id FK)
+	  N ---- N listas_leitura via listas_leitura_livros
+
+	emprestimos
+	  id PK
+	  usuario_id FK -> usuarios.id
+	  livro_id FK -> livros.id
+	  status: SOLICITADO, ATIVO, DEVOLVIDO ou RECUSADO
+
+	campos_marc
+	  id PK
+	  livro_id FK -> livros.id
+
+	listas_leitura_livros
+	  lista_leitura_id FK -> listas_leitura.id
+	  livro_id FK -> livros.id
+	  PK composta (lista_leitura_id, livro_id)
+
+	configuracoes_globais
+	  id PK
+\end{verbatim}
+
 \subsection{Diagrama de Caso de Uso}
 
 \begin{verbatim}

@@ -45,13 +45,13 @@ Os endpoints da aplicação foram testados utilizando a ferramenta \textbf{Postm
 	}
 \end{lstlisting}
 
-% ---- ENDPOINT 2: POST /api/usuarios ----
-\subsection{Endpoint: POST /api/usuarios}
+% ---- ENDPOINT 2: POST /api/cadastro ----
+\subsection{Endpoint: POST /api/cadastro}
 
 \textbf{Descrição:} Realiza o cadastro de um novo leitor no sistema.
 
-\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/usuarios}]
-	POST http://localhost:8080/biblioteca/api/usuarios
+\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/cadastro}]
+	POST http://localhost:8080/biblioteca/api/cadastro
 	Content-Type: application/x-www-form-urlencoded
 	
 	nome=Fulano+da+Silva&email=fulano@gmail.com&senha=senha123
@@ -79,7 +79,7 @@ Os endpoints da aplicação foram testados utilizando a ferramenta \textbf{Postm
 \textbf{Descrição:} Ativa a conta do usuário através do token UUID enviado por e-mail.
 
 \begin{lstlisting}[style=sqlStyle, caption={Requisição: GET /api/ativar}]
-	GET http://localhost:8080/biblioteca/api/ativar?token=9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
+	GET http://localhost:8080/biblioteca/api/ativar?email=fulano@gmail.com&token=9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
 \end{lstlisting}
 
 \begin{lstlisting}[style=sqlStyle, caption={Resposta esperada (HTTP 200 OK)}]
@@ -89,13 +89,13 @@ Os endpoints da aplicação foram testados utilizando a ferramenta \textbf{Postm
 	}
 \end{lstlisting}
 
-% ---- ENDPOINT 4: POST /api/recuperar ----
-\subsection{Endpoint: POST /api/recuperar}
+% ---- ENDPOINT 4: POST /api/recuperar-senha ----
+\subsection{Endpoint: POST /api/recuperar-senha}
 
 \textbf{Descrição:} Envia uma senha temporária por e-mail se a conta estiver ativa.
 
-\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/recuperar}]
-	POST http://localhost:8080/biblioteca/api/recuperar
+\begin{lstlisting}[style=sqlStyle, caption={Requisição: POST /api/recuperar-senha}]
+	POST http://localhost:8080/biblioteca/api/recuperar-senha
 	Content-Type: application/x-www-form-urlencoded
 	
 	email=fulano@gmail.com
@@ -106,7 +106,7 @@ Os endpoints da aplicação foram testados utilizando a ferramenta \textbf{Postm
 		"sucesso": true,
 		"mensagem": "Se o e-mail existir e a conta estiver ativa, enviaremos uma senha temporaria."
 	}
-	\\end{lstlisting}
+\end{lstlisting}
 	
 	% ---- ENDPOINT 5: POST /api/emprestimos ----
 	\subsection{Endpoint: POST /api/emprestimos}
