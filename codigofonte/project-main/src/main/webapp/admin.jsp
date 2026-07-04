@@ -314,8 +314,9 @@
                     </table>
                 </div>
                 <div id="noActiveLoansMessage" class="text-center py-5 d-none">
-                    <i class="fa-solid fa-check-double fa-3x text-muted mb-3"></i>
-                    <p class="text-muted">Não há solicitações pendentes nem empréstimos ativos.</p>
+                    <i class="fa-solid fa-check-double fa-3x mb-3" style="color: #cbd5e1;"></i>
+                    <p class="fw-semibold mb-1" style="color: #f8fafc;">Não há solicitações pendentes nem empréstimos ativos.</p>
+                    <p class="mb-0" style="color: #cbd5e1;">Quando um leitor solicitar ou retirar um livro, o registro aparecerá aqui.</p>
                 </div>
             </div>
         </div>
