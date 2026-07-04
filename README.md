@@ -2,6 +2,24 @@
 
 Sistema web desenvolvido em Java para gerenciamento de biblioteca utilizando o padrão MARC21.
 
+## Identificação do projeto
+
+**Nome do projeto:** Sistema de Gestão de Biblioteca MARC21
+
+**Integrantes:**
+
+* Halan Willian Da Costa Sousa
+* Maria Eduarda Machado Silva
+* Naiany Evelyn Lima Sobral
+
+**Datas importantes:**
+
+* Revisão de aderência aos requisitos: 29/06/2026
+* Data de entrega: 02/07/2026
+* Apresentação em laboratório: conforme calendário da disciplina
+
+---
+
 ## Requisitos
 
 * Java JDK 11
