@@ -234,7 +234,7 @@
                 <div class="col-md-8">
                     <div class="search-container d-flex align-items-center">
                         <i class="fa-solid fa-magnifying-glass text-muted ms-3"></i>
-                        <input type="text" id="searchInput" class="form-control search-input" placeholder="Pesquisar por título, autor, ISBN ou campo MARC21 (ex: Tag 650 para Assunto)...">
+                        <input type="text" id="searchInput" class="form-control search-input" placeholder="Pesquisar por título, autor, ISBN ou campo MARC21 (ex: 650, Tag 650 ou assunto)...">
                     </div>
                 </div>
             </div>
@@ -253,8 +253,9 @@
         </div>
         
         <div id="noResults" class="text-center py-5 d-none">
-            <i class="fa-regular fa-folder-open fa-3x text-muted mb-3"></i>
-            <p class="text-muted">Nenhum livro encontrado para os critérios digitados.</p>
+            <i class="fa-regular fa-folder-open fa-3x mb-3" style="color: #cbd5e1;"></i>
+            <p class="fw-semibold mb-1" style="color: #f8fafc;">Nenhum livro encontrado.</p>
+            <p class="mb-0" style="color: #cbd5e1;">Tente pesquisar por título, autor, ISBN ou tag MARC21.</p>
         </div>
     </main>
 
@@ -298,9 +299,7 @@
                 data.tag = partes[0].trim();
                 data.valor = partes[1].trim();
             } else if (query.trim() !== "") {
-                // Busca textual simples (por título ou autor, tratada pelo Servlet)
-                // Para simplificar a rota padrão do servlet, vamos mandar como busca de tag se o usuário digitar o formato correto,
-                // caso contrário faremos o filtro no próprio Javascript a partir da lista geral (ou estendemos a API posteriormente)
+                // Busca textual geral tratada pelo Servlet: titulo, autor, ISBN, tag e valor MARC21.
                 data.buscaGeral = query;
             }
 
@@ -313,16 +312,6 @@
                     $("#loader").addClass("d-none");
                     let grid = $("#livrosGrid");
                     grid.empty();
-
-                    // Se enviou busca textual comum, faz o filtro no client-side para não precisar de complexidade no banco
-                    if (data.buscaGeral) {
-                        let termo = data.buscaGeral.toLowerCase();
-                        livros = livros.filter(function(livro) {
-                            return livro.titulo.toLowerCase().includes(termo) || 
-                                   livro.autor.toLowerCase().includes(termo) || 
-                                   livro.isbn.toLowerCase().includes(termo);
-                        });
-                    }
 
                     if (livros.length === 0) {
                         $("#noResults").removeClass("d-none");

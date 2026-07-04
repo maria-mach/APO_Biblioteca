@@ -160,6 +160,45 @@ public class LivroFisicoDAO extends BaseDAO {
     }
 
     /**
+     * Busca livros por titulo, autor, ISBN ou campos MARC21 (tag e valor).
+     *
+     * @param termo Termo geral digitado pelo usuario.
+     * @return List de LivroFisico correspondentes.
+     * @throws SQLException Caso ocorra erro no banco de dados.
+     */
+    public List<LivroFisico> buscarGeral(String termo) throws SQLException {
+        String sql = "SELECT DISTINCT l.* FROM livros l " +
+                     "LEFT JOIN campos_marc c ON l.id = c.livro_id " +
+                     "WHERE l.titulo LIKE ? " +
+                     "OR l.autor LIKE ? " +
+                     "OR l.isbn LIKE ? " +
+                     "OR c.tag LIKE ? " +
+                     "OR c.valor LIKE ?";
+
+        List<LivroFisico> livros = new ArrayList<>();
+        String termoLike = "%" + termo + "%";
+        String digitos = termo.replaceAll("\\D", "");
+        String tagLike = digitos.length() == 3 ? "%" + digitos + "%" : termoLike;
+
+        try (Connection conn = getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, termoLike);
+            stmt.setString(2, termoLike);
+            stmt.setString(3, termoLike);
+            stmt.setString(4, tagLike);
+            stmt.setString(5, termoLike);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    livros.add(mapearResultSetParaLivroFisico(rs));
+                }
+            }
+        }
+        return livros;
+    }
+
+    /**
      * Busca livros usando filtros do padrão MARC21 na tabela satélite de campos.
      * 
      * @param tag   Número de identificação da tag MARC21 (ex: '650' para assunto).
@@ -199,4 +238,3 @@ public class LivroFisicoDAO extends BaseDAO {
         );
     }
 }
-

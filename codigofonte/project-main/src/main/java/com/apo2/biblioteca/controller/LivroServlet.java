@@ -40,12 +40,15 @@ public class LivroServlet extends HttpServlet {
         
         String tag = request.getParameter("tag");
         String valor = request.getParameter("valor");
+        String buscaGeral = request.getParameter("buscaGeral");
 
         try {
             List<LivroFisico> livros;
             if (tag != null && !tag.trim().isEmpty() && valor != null && !valor.trim().isEmpty()) {
                 // Busca avançada utilizando indexação MARC21
                 livros = livroDAO.buscarAvancadaMARC(tag, valor);
+            } else if (buscaGeral != null && !buscaGeral.trim().isEmpty()) {
+                livros = livroDAO.buscarGeral(buscaGeral.trim());
             } else {
                 // Listagem geral padrão
                 livros = livroDAO.listarTodos();

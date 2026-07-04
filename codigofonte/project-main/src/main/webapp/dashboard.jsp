@@ -434,22 +434,18 @@
             $.ajax({
                 url: "api/livros",
                 type: "GET",
+                data: query.trim() !== "" ? { buscaGeral: query.trim() } : {},
                 dataType: "json",
                 success: function(livros) {
                     let grid = $("#booksGrid");
                     grid.empty();
 
-                    if (query.trim() !== "") {
-                        let termo = query.toLowerCase();
-                        livros = livros.filter(function(livro) {
-                            return livro.titulo.toLowerCase().includes(termo) || 
-                                   livro.autor.toLowerCase().includes(termo) || 
-                                   livro.isbn.toLowerCase().includes(termo);
-                        });
-                    }
-
                     if (livros.length === 0) {
-                        grid.append('<div class="col-12 text-center py-5"><p class="text-muted">Nenhum livro encontrado.</p></div>');
+                        grid.append('<div class="col-12 text-center py-5">' +
+                            '<i class="fa-regular fa-folder-open fa-3x mb-3" style="color: #cbd5e1;"></i>' +
+                            '<p class="fw-semibold mb-1" style="color: #f8fafc;">Nenhum livro encontrado.</p>' +
+                            '<p class="mb-0" style="color: #cbd5e1;">Tente pesquisar por título, autor, ISBN ou tag MARC21.</p>' +
+                        '</div>');
                         return;
                     }
 
