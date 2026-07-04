@@ -322,8 +322,9 @@
                     </table>
                 </div>
                 <div id="noLoansMessage" class="text-center py-5 d-none">
-                    <i class="fa-solid fa-handshake-slash fa-3x text-muted mb-3"></i>
-                    <p class="text-muted">Você ainda não realizou nenhum empréstimo.</p>
+                    <i class="fa-solid fa-handshake-slash fa-3x mb-3" style="color: #cbd5e1;"></i>
+                    <p class="fw-semibold mb-1" style="color: #f8fafc;">Você ainda não realizou nenhum empréstimo.</p>
+                    <p class="mb-0" style="color: #cbd5e1;">Solicite um livro disponível no acervo para acompanhar o status aqui.</p>
                 </div>
             </div>
         </div>
