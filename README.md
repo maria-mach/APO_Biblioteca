@@ -33,6 +33,7 @@ Crie o banco de dados:
 
 ```sql
 CREATE DATABASE biblioteca_marc21 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE biblioteca_marc21;
 ```
 
 Execute os scripts na seguinte ordem:
@@ -53,6 +54,35 @@ Informando:
 * URL do banco
 * Usuário
 * Senha
+
+---
+
+## Executando pelo Eclipse
+
+1. Abra o Eclipse.
+2. Acesse **File > Import > Maven > Existing Maven Projects**.
+3. Em **Root Directory**, selecione:
+
+   ```
+   codigofonte/project-main
+   ```
+
+4. Confirme se o `pom.xml` foi encontrado e clique em **Finish**.
+5. Configure o Apache Tomcat 9 em **Window > Preferences > Server > Runtime Environments**.
+6. Na aba **Servers**, crie ou selecione o Tomcat 9.
+7. Clique com o botão direito no Tomcat e escolha **Add and Remove**.
+8. Adicione o projeto `biblioteca`.
+9. Clique com o botão direito no projeto e use **Maven > Update Project**.
+10. Use **Project > Clean**.
+11. Inicie o Tomcat pela aba **Servers**.
+
+A aplicação estará disponível em:
+
+```
+http://localhost:8080/biblioteca/
+```
+
+Se alterar arquivos ou scripts, use **Refresh**, **Project > Clean** e **Publish** no servidor.
 
 ---
 
@@ -135,6 +165,35 @@ Os scripts realizam a inicialização do ambiente utilizando o **Apache Tomcat n
 * JDBC
 * JSP
 * Servlets
+* jQuery
+* Bootstrap
+* AJAX
+* Gson
+
+---
+
+## Credenciais de teste
+
+Administrador:
+
+```
+E-mail: admin@biblioteca.com
+Senha: admin123
+```
+
+Leitor ativo:
+
+```
+E-mail: mariana@email.com
+Senha: mariana123
+```
+
+Leitor pendente:
+
+```
+E-mail: carlos@email.com
+Senha: carlos123
+```
 
 ---
 
