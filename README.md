@@ -57,6 +57,29 @@ Informando:
 
 ---
 
+## Configuração do Mailtrap
+
+O sistema usa Mailtrap para testar o envio de e-mails de ativação de cadastro e recuperação de senha.
+
+No mesmo arquivo:
+
+```
+codigofonte/project-main/src/main/resources/db.properties
+```
+
+Configure os dados SMTP do Mailtrap:
+
+```properties
+smtp.host=sandbox.smtp.mailtrap.io
+smtp.port=2525
+smtp.user=SEU_USUARIO_MAILTRAP
+smtp.password=SUA_SENHA_MAILTRAP
+```
+
+Esses dados ficam disponíveis no painel do Mailtrap, na aba SMTP/Integration do sandbox.
+
+---
+
 ## Executando pelo Eclipse
 
 1. Abra o Eclipse.

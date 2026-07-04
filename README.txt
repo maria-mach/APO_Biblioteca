@@ -1,5 +1,27 @@
 SISTEMA BIBLIOTECA MARC21
 
+NOME DO PROJETO
+
+Sistema de Gestão de Biblioteca MARC21
+
+---
+
+INTEGRANTES
+
+Halan Willian Da Costa Sousa
+Maria Eduarda Machado Silva
+Naiany Evelyn Lima Sobral
+
+---
+
+DATAS IMPORTANTES
+
+Revisão de aderência aos requisitos: 29/06/2026
+Data de entrega: 02/07/2026
+Apresentação em laboratório: conforme calendário da disciplina
+
+---
+
 REQUISITOS
 
 * Java JDK 11
@@ -47,6 +69,25 @@ Informando:
 * URL do banco
 * Usuário
 * Senha
+
+---
+
+CONFIGURAÇÃO DO MAILTRAP
+
+O sistema usa Mailtrap para testar o envio de e-mails de ativação de cadastro e recuperação de senha.
+
+No mesmo arquivo:
+
+codigofonte/project-main/src/main/resources/db.properties
+
+Configure os dados SMTP do Mailtrap:
+
+smtp.host=sandbox.smtp.mailtrap.io
+smtp.port=2525
+smtp.user=SEU_USUARIO_MAILTRAP
+smtp.password=SUA_SENHA_MAILTRAP
+
+Esses dados ficam disponíveis no painel do Mailtrap, na aba SMTP/Integration do sandbox.
 
 ---
 
