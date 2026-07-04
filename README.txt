@@ -17,8 +17,8 @@ Naiany Evelyn Lima Sobral
 DATAS IMPORTANTES
 
 Revisão de aderência aos requisitos: 29/06/2026
-Data de entrega: 02/07/2026
-Apresentação em laboratório: conforme calendário da disciplina
+Data de entrega: 04/07/2026
+Apresentação em vídeo: 04/07/2026
 
 ---
 
