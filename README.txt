@@ -20,8 +20,7 @@ codigofonte/
 ├── database/
 │   ├── ddl.sql
 │   ├── dml.sql
-│   ├── migracao_status_emprestimos.sql
-│   └── db.properties
+│   └── dicionario_dados.txt
 │
 └── project-main/
 
@@ -37,11 +36,10 @@ Executar os scripts nesta ordem:
 
 1. ddl.sql
 2. dml.sql
-3. migracao_status_emprestimos.sql
 
 Configurar o arquivo:
 
-codigofonte/database/db.properties
+codigofonte/project-main/src/main/resources/db.properties
 
 Informando:
 
@@ -117,6 +115,8 @@ Executar obrigatoriamente:
 
 * ddl.sql
 * dml.sql
-* migracao_status_emprestimos.sql
 
 antes da primeira execução do sistema.
+
+O arquivo ddl.sql já cria a estrutura atualizada do banco, incluindo o status dos empréstimos.
+O arquivo dml.sql já contém a carga inicial completa compatível com essa estrutura.
