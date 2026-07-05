@@ -2,16 +2,12 @@
 
 O sistema foi projetado seguindo uma hierarquia de herança clara para o acervo bibliográfico. A classe abstrata \texttt{ItemAcervo} define o contrato comum para todos os itens do acervo, sendo estendida pelas classes concretas \texttt{LivroFisico} e \texttt{EBook}.
 
-\begin{verbatim}
-	ItemAcervo <|-- LivroFisico
-	ItemAcervo <|-- EBook
-	Usuario "1" ---- "N" Emprestimo
-	LivroFisico "1" ---- "N" Emprestimo
-	LivroFisico "1" ---- "N" CampoMARC
-	Usuario "1" ---- "N" ListaLeitura
-	ListaLeitura "N" ---- "N" LivroFisico
-	BaseDAO <|-- UsuarioDAO / LivroFisicoDAO / EmprestimoDAO / ConfiguracaoDAO
-\end{verbatim}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{../imagens/1-class_diagram.png}
+	\caption{Diagrama de Classes do sistema Biblioteca MARC21}
+	\label{fig:diagrama-classes}
+\end{figure}
 
 As principais relações de herança e associação são:
 
@@ -35,65 +31,27 @@ O fluxo de execução das requisições assíncronas (AJAX) segue de forma padro
 
 O modelo relacional do banco de dados organiza os cadastros principais e as relações operacionais de empréstimo, metadados MARC21 e listas de leitura.
 
-\begin{verbatim}
-	usuarios (id PK)
-	  1 ---- N emprestimos (usuario_id FK)
-	  1 ---- N listas_leitura (usuario_id FK)
-
-	livros (id PK)
-	  1 ---- N emprestimos (livro_id FK)
-	  1 ---- N campos_marc (livro_id FK)
-	  N ---- N listas_leitura via listas_leitura_livros
-
-	emprestimos
-	  id PK
-	  usuario_id FK -> usuarios.id
-	  livro_id FK -> livros.id
-	  status: SOLICITADO, ATIVO, DEVOLVIDO ou RECUSADO
-
-	campos_marc
-	  id PK
-	  livro_id FK -> livros.id
-
-	listas_leitura_livros
-	  lista_leitura_id FK -> listas_leitura.id
-	  livro_id FK -> livros.id
-	  PK composta (lista_leitura_id, livro_id)
-
-	configuracoes_globais
-	  id PK
-\end{verbatim}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{../imagens/2-entity_diagram.png}
+	\caption{Diagrama Entidade-Relacionamento do banco de dados}
+	\label{fig:diagrama-er}
+\end{figure}
 
 \subsection{Diagrama de Caso de Uso}
 
-\begin{verbatim}
-	Visitante -> Consultar acervo publico
-	Visitante -> Cadastrar usuario
-	Visitante -> Ativar conta por e-mail
-	Visitante -> Recuperar senha
-	Usuario autenticado -> Atualizar perfil
-	Usuario autenticado -> Solicitar emprestimo
-	Usuario autenticado -> Renovar emprestimo
-	Usuario autenticado -> Criar lista ou listas de livros
-	Administrador -> Gerenciar acervo
-	Administrador -> Gerenciar usuarios e niveis
-	Administrador -> Aprovar ou recusar solicitacao de emprestimo
-	Administrador -> Registrar devolucao
-	Administrador -> Atualizar configuracoes
-\end{verbatim}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{../imagens/3-use_case_diagram.png}
+	\caption{Diagrama de Caso de Uso}
+	\label{fig:diagrama-caso-uso}
+\end{figure}
 
 \subsection{Diagrama de Sequência: Solicitação e Aprovação de Empréstimo}
 
-\begin{verbatim}
-	Leitor -> dashboard.jsp: clica em Solicitar Empréstimo
-	dashboard.jsp -> EmprestimoServlet: POST /api/emprestimos
-	EmprestimoServlet -> AutenticacaoFilter: valida sessão
-	EmprestimoServlet -> LivroFisicoDAO: consulta disponibilidade
-	EmprestimoServlet -> EmprestimoDAO: registra status SOLICITADO
-	EmprestimoServlet -> dashboard.jsp: retorna JSON aguardando aprovação
-	Administrador -> admin.jsp: clica em Aprovar
-	admin.jsp -> EmprestimoServlet: POST /api/emprestimos acao=aprovar
-	EmprestimoServlet -> LivroFisicoDAO: decrementa estoque
-	EmprestimoServlet -> EmprestimoDAO: altera status para ATIVO
-	EmprestimoServlet -> admin.jsp: retorna JSON sucesso
-\end{verbatim}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{../imagens/4-sequence_diagram.png}
+	\caption{Diagrama de Sequência: solicitação e aprovação de empréstimo}
+	\label{fig:diagrama-sequencia-emprestimo}
+\end{figure}
